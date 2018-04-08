@@ -65,11 +65,13 @@ h1 {
     box-shadow: 5px 2px 20px 0 rgba(46, 61, 73, 0.5);
     transform-style: preserve-3d;
     transition: transform 0.3s;
+
 }
 
 .deck .card.open {
     background: #02b3e4;
     cursor: default;
+     transform: rotateY( 180deg );
 }
 
 .deck .card.show {
@@ -83,8 +85,9 @@ h1 {
 }
 
 .deck .card.flip {
-  transform: rotateY( 180deg );
+  transform: rotateY(180deg);
 }
+
 
 
 /*

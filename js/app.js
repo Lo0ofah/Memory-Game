@@ -36,17 +36,55 @@
  ulCards.innerHTML="";
  ulCards.appendChild(fragment);
 
-
+//array for keep keeping  the clicked cards to look for a match between them
+let flipedCardsList = [];
 // set up the event listener for a card. If a card is clicked:
  ulCards.addEventListener("click" , CardsClick);
+//method will call if cards clicked
  function CardsClick(e){
    if(e.target.nodeName === 'LI'){
-     e.target.setAttribute("class","card flip open show ");
+     // cardsOpen for the cards status if opened or closed
+    let cardsOpen = checkIfOpen(e.target);
+    //if the cards closed call the method to display the symbol and adding the card to the list of opened cards
+    if(!cardsOpen){
+     displaySymbol(e.target);
+     addOpenCards(e.target);
+   }
    }
  }
+//method to check if the cards was already clicked before or not
+ function checkIfOpen(target){
+  return  (target.className === "card flip open show") ||(target.className === "card match")? true : false;
+ }
 
-// display the card's symbol (put this functionality in another function that you call from this one)
-// add the card to a *list* of "open" cards (put this functionality in another function that you call from this one)
+ // display the card's symbol
+ function displaySymbol(target){
+    target.setAttribute("class","card flip open show");
+ }
+// add the card to the list of opened cards
+function addOpenCards(target){
+  flipedCardsList.push(target);
+  //if there is 2 cards opened check for match between them
+  if(flipedCardsList.length === 2){
+     setTimeout( checkForMatch , 500);
+
+  }
+}
+//method to check match between the two opened cards
+function checkForMatch(){
+  let card1 = flipedCardsList.pop() ;
+  let card2 = flipedCardsList.pop();
+  let icone1 = card1.getElementsByTagName("i")[0];
+  let icone2 = card2.getElementsByTagName("i")[0];
+  if(icone1.className === icone2.className){
+      card1.setAttribute("class","card match");
+      card2.setAttribute("class","card match");
+  }else{
+      card1.setAttribute("class","card flip");
+      card2.setAttribute("class","card flip");
+  }
+
+}
 //  *   if the list already has another card, check to see if the two cards match
 //  *    + if the cards do match, lock the cards in the open position (put this functionality in another function that you call from this one)
 //  *    + if the cards do not match, remove the cards from the list and hide the card's symbol (put this functionality in another function that you call from this one)
