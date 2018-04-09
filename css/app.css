@@ -112,6 +112,10 @@ h1 {
     display: inline-block;
 }
 
+.starColor{
+  color: #d26d1a;
+}
+
 .score-panel .restart {
     float: right;
     cursor: pointer;

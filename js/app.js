@@ -42,6 +42,10 @@ let flipedCardsList = [];
 let movesSpan = document.getElementsByClassName("moves")[0];
 //to count the number of moves
 let movesCounter = 0 ;
+//get the stars list
+let ulStars = document.getElementsByClassName("stars")[0];
+let starsCollection = ulStars.getElementsByTagName("li");
+
 // set up the event listener for a card. If a card is clicked:
  ulCards.addEventListener("click" , CardsClick);
 //method will call if cards clicked
@@ -72,6 +76,9 @@ function addOpenCards(target){
   if(flipedCardsList.length === 2){
      setTimeout( checkForMatch , 500);
      modifyCounter();
+     modifyStars();
+
+
 
   }
 }
@@ -95,6 +102,27 @@ function modifyCounter(){
    movesCounter++;
    movesSpan.textContent = movesCounter;
 }
+
+//modify stars
+function modifyStars(){
+  if( movesCounter === 20){
+      //2 stars
+      ChangeStarStyle(0);
+  }else if( movesCounter === 30){
+      //1 star
+      ChangeStarStyle(1);
+  }else if(movesCounter === 40){
+     //0 star
+      ChangeStarStyle(2);
+  }
+  }
+
+  function ChangeStarStyle(index){
+     starsCollection[index].getElementsByTagName("i")[0].setAttribute("class","fa fa-star");
+  }
+
+
+
 
 //  *   if the list already has another card, check to see if the two cards match
 //  *    + if the cards do match, lock the cards in the open position (put this functionality in another function that you call from this one)
