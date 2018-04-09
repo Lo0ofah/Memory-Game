@@ -62,8 +62,8 @@ let winCounter = 0 ;
 
  window.addEventListener("load", function () {
    shufflingCards();
-  restartIcon = document.getElementsByClassName("fa fa-repeat")[0];
-  restartIcon.addEventListener("click" , restartGame );
+   restartIcon = document.getElementsByClassName("fa fa-repeat")[0];
+   restartIcon.addEventListener("click" , restartGame );
 });
 
 
@@ -113,8 +113,8 @@ function checkForMatch(){
       winCounter++;
       checkWin();
    }else{
-      card1.setAttribute("class","card flip");
-      card2.setAttribute("class","card flip");
+      card1.setAttribute("class","card");
+      card2.setAttribute("class","card");
    }
 
 }
@@ -202,7 +202,7 @@ function modifyStars(){
 
   // flip back specific card
   function flipCardBack(card){
-      cards[card].setAttribute("class","card flip");
+      cards[card].setAttribute("class","card");
   }
 
   //method to reset the players moves
