@@ -45,6 +45,13 @@ let movesCounter = 0 ;
 //get the stars list
 let ulStars = document.getElementsByClassName("stars")[0];
 let starsCollection = ulStars.getElementsByTagName("li");
+//get the timer span element
+let timerSpan = document.getElementsByClassName("timer")[0];
+// timer to count the time
+let timeCounter = 0;
+//every second increment the Timer counter
+timeCounter = setInterval(incrementTimeCounter, 1000);
+
 
 // set up the event listener for a card. If a card is clicked:
  ulCards.addEventListener("click" , CardsClick);
@@ -119,6 +126,11 @@ function modifyStars(){
 
   function ChangeStarStyle(index){
      starsCollection[index].getElementsByTagName("i")[0].setAttribute("class","fa fa-star");
+  }
+
+  function incrementTimeCounter(){
+    timerSpan.textContent  = timeCounter;
+    timeCounter++;
   }
 
 
