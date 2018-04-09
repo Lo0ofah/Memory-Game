@@ -23,18 +23,20 @@
       return array;
   }
 
- //Display the cards on the page
- // - shuffle the list of cards using the provided "shuffle" method below
- let shuffleCards = shuffle(cards);
- // - loop through each card and create its HTML
- //create a fregment to add all the cards in it
- const fragment = document.createDocumentFragment();
- for(let card = 0 ; card < shuffleCards.length ; card++){
-   fragment.appendChild(shuffleCards[card]);
+ //create a global variable for the cards shuffling
+ let shuffleCardsList = null;
+//shuffling method to shuffle the list of cards
+ function shufflingCards(){
+   shuffleCardsList = shuffle(cards);
+   // loop through each card and add it to HTML
+   //create a fregment to add all the cards in it
+   const fragment = document.createDocumentFragment();
+   for(let card = 0 ; card < shuffleCardsList.length ; card++){
+     fragment.appendChild(shuffleCardsList[card]);
+   }
+   ulCards.innerHTML="";
+   ulCards.appendChild(fragment);
  }
- // - add each card's HTML to the page
- ulCards.innerHTML="";
- ulCards.appendChild(fragment);
 
 //array for keep keeping  the clicked cards to look for a match between them
 let flipedCardsList = [];
@@ -51,6 +53,14 @@ let timerSpan = document.getElementsByClassName("timer")[0];
 let timeCounter = 0;
 //every second increment the Timer counter
 timeCounter = setInterval(incrementTimeCounter, 1000);
+//create a global reset variable
+let restartIcon = null;
+
+ window.addEventListener("load", function () {
+   shufflingCards();
+  restartIcon = document.getElementsByClassName("fa fa-repeat")[0];
+  restartIcon.addEventListener("click" , restartGame );
+});
 
 
 // set up the event listener for a card. If a card is clicked:
@@ -64,7 +74,7 @@ timeCounter = setInterval(incrementTimeCounter, 1000);
     if(!cardsOpen){
      displaySymbol(e.target);
      addOpenCards(e.target);
-   }
+    }
    }
  }
 //method to check if the cards was already clicked before or not
@@ -85,8 +95,6 @@ function addOpenCards(target){
      modifyCounter();
      modifyStars();
 
-
-
   }
 }
 //method to check match between the two opened cards
@@ -98,10 +106,10 @@ function checkForMatch(){
   if(icone1.className === icone2.className){
       card1.setAttribute("class","card match");
       card2.setAttribute("class","card match");
-  }else{
+   }else{
       card1.setAttribute("class","card flip");
       card2.setAttribute("class","card flip");
-  }
+   }
 
 }
 // method to increment the moves counter and modify the move span
@@ -114,18 +122,19 @@ function modifyCounter(){
 function modifyStars(){
   if( movesCounter === 20){
       //2 stars
-      ChangeStarStyle(0);
-  }else if( movesCounter === 30){
+      ChangeStarStyle("remove" , 0);
+   }else if( movesCounter === 30){
       //1 star
-      ChangeStarStyle(1);
-  }else if(movesCounter === 40){
+      ChangeStarStyle("remove" , 1);
+    }else if(movesCounter === 40){
      //0 star
-      ChangeStarStyle(2);
-  }
+      ChangeStarStyle("remove" , 2);
+    }
   }
 
-  function ChangeStarStyle(index){
-     starsCollection[index].getElementsByTagName("i")[0].setAttribute("class","fa fa-star");
+  function ChangeStarStyle(status,index){
+    let starElement = starsCollection[index].getElementsByTagName("i")[0];
+    status === "remove"  ? starElement.setAttribute("class","fa fa-star") : starElement.setAttribute("class","fa fa-star starColor");
   }
 
   function incrementTimeCounter(){
@@ -133,7 +142,59 @@ function modifyStars(){
     timeCounter++;
   }
 
+  //restart the game
+  function restartGame(){
+    //flip  back all cards
+    flipBackAllCards(cards);
+    //shuffle the cards
+    shufflingCards();
+   //reset moves counter
+    resetMoves();
+   //reset timer counter
+    resetTimer();
+    //reset stars rating
+    resetStars();
+    //rest the list of opened Cards
+    resetOpenedCardsList();
 
+  }
+  //method to loop throw every cards to flip back them
+  function flipBackAllCards(cards){
+    for(let card in cards){
+      flipCardBack(card);
+    }
+  }
+
+  // flip back specific card
+  function flipCardBack(card){
+      cards[card].setAttribute("class","card flip");
+  }
+
+  //method to reset the players moves
+  function resetMoves(){
+    movesCounter = 0;
+    movesSpan.textContent = movesCounter;
+  }
+
+  //method to reset the timer
+  function resetTimer(){
+    timeCounter = 0 ;
+    timerSpan.textContent = timeCounter;
+  }
+
+  //method to reset the stars rating
+  function resetStars(){
+    for(let i=0 ; i< starsCollection.length ; i++){
+    ChangeStarStyle(" ",i);
+   }
+  }
+
+ //method to clear the opened cards list
+  function resetOpenedCardsList(){
+    while(flipedCardsList.length > 0) {
+    flipedCardsList.pop();
+    }
+  }
 
 
 //  *   if the list already has another card, check to see if the two cards match
