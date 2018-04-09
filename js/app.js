@@ -47,14 +47,18 @@ let movesCounter = 0 ;
 //get the stars list
 let ulStars = document.getElementsByClassName("stars")[0];
 let starsCollection = ulStars.getElementsByTagName("li");
+//stars winCounter
+let starsCounter = 3;
 //get the timer span element
 let timerSpan = document.getElementsByClassName("timer")[0];
-// timer to count the time
-let timeCounter = 0;
-//every second increment the Timer counter
-timeCounter = setInterval(incrementTimeCounter, 1000);
+// timer to count the time ,every second increment the Timer counter
+let timeCounter = window.setInterval(incrementTimeCounter, 1000);
+let stopTimer = false;
 //create a global reset variable
 let restartIcon = null;
+//winCounter to count the opened matching cards
+let winCounter = 0 ;
+
 
  window.addEventListener("load", function () {
    shufflingCards();
@@ -106,12 +110,34 @@ function checkForMatch(){
   if(icone1.className === icone2.className){
       card1.setAttribute("class","card match");
       card2.setAttribute("class","card match");
+      winCounter++;
+      checkWin();
    }else{
       card1.setAttribute("class","card flip");
       card2.setAttribute("class","card flip");
    }
 
 }
+
+function checkWin(){
+  if(winCounter === 8){
+    stopTimer = true;
+    //clearInterval(timer);
+    swal({
+    title: "Gongratulations, You Won !",
+    text: `With ${movesCounter} Moves and ${starsCounter} stars in ${timeCounter} Seconds`,
+    icon: "success",
+    button: "Play again!",
+  })
+  .then((value) => {
+    if(value){
+      stopTimer = false;
+      restartGame();
+    }
+  });
+ }
+}
+
 // method to increment the moves counter and modify the move span
 function modifyCounter(){
    movesCounter++;
@@ -122,12 +148,15 @@ function modifyCounter(){
 function modifyStars(){
   if( movesCounter === 20){
       //2 stars
+      starsCounter--;
       ChangeStarStyle("remove" , 0);
    }else if( movesCounter === 30){
       //1 star
+      starsCounter--;
       ChangeStarStyle("remove" , 1);
     }else if(movesCounter === 40){
      //0 star
+     starsCounter--;
       ChangeStarStyle("remove" , 2);
     }
   }
@@ -138,8 +167,12 @@ function modifyStars(){
   }
 
   function incrementTimeCounter(){
-    timerSpan.textContent  = timeCounter;
-    timeCounter++;
+    if(stopTimer){
+     timerSpan.textContent  = timeCounter;
+  }else {
+      timerSpan.textContent  = timeCounter;
+      timeCounter++;
+  }
   }
 
   //restart the game
@@ -156,6 +189,8 @@ function modifyStars(){
     resetStars();
     //rest the list of opened Cards
     resetOpenedCardsList();
+    //reset the win Counter
+    winCounter=0;
 
   }
   //method to loop throw every cards to flip back them
@@ -184,6 +219,7 @@ function modifyStars(){
 
   //method to reset the stars rating
   function resetStars(){
+    starsCounter = 3 ;
     for(let i=0 ; i< starsCollection.length ; i++){
     ChangeStarStyle(" ",i);
    }
