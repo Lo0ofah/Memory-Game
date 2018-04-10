@@ -1,20 +1,29 @@
 # Memory Game Project
+Memory game is game that require player to flip cards to find the match of similar cards element.
 
 ## Table of Contents
+* [installation](#installation)
+* [App's functionality](#App's-functionality)
+* [Resources](#Resources)
+* [References](#contributing)
 
-* [Instructions](#instructions)
-* [Contributing](#contributing)
+## installation
+Download the project
+To run the project search for index.html and open it in a browser.
 
-## Instructions
+## App's functionality
+The player have to click on the card to flip.
+The player have to find all the match between cards to win.
+The player can restart the Game.
+The game will track the number of moves, star rating and the time that take the player to finish the game.
 
-The starter project has some HTML and CSS styling to display a static version of the Memory Game project. You'll need to convert this project from a static project to an interactive one. This will require modifying the HTML and CSS files, but primarily the JavaScript file.
+## Resources
+What I use beside the HTML, CSS, JavaScript
+[sweetalert](https://sweetalert.js.org/)
+[Font Awesome](https://fontawesome.com/v4.7.0/)
 
-To get started, open `js/app.js` and start building out the app's functionality
-
-For specific, detailed instructions, look at the project instructions in the [Udacity Classroom](https://classroom.udacity.com/me).
-
-## Contributing
-
-This repository is the starter code for _all_ Udacity students. Therefore, we most likely will not accept pull requests.
-
-For details, check out [CONTRIBUTING.md](CONTRIBUTING.md).
+## References
+What helped me in developing the project
+Front End Nanodegree Udacity course
+[w3schools](https://www.w3schools.com/)
+[Dillinger](https://dillinger.io/)
